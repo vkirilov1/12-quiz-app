@@ -8,7 +8,7 @@ export default function Summary() {
 
   const { skipped, correct, incorrect } = answers.reduce(
     (acc, { answer, isCorrect }) => {
-      if (answer === "") acc.skipped++;
+      if (answer === null) acc.skipped++;
       else if (isCorrect) acc.correct++;
       else acc.incorrect++;
       return acc;
@@ -44,7 +44,7 @@ export default function Summary() {
       <ol>
         {answers.map((answer, index) => {
           const className =
-            answer.answer === ""
+            answer.answer === null
               ? "skipped"
               : answer.isCorrect
               ? "correct"
@@ -54,7 +54,8 @@ export default function Summary() {
             (question) => question.id === answer.id
           )?.text;
 
-          const answerValue = answer.answer === "" ? "Skipped" : answer.answer;
+          const answerValue =
+            answer.answer === null ? "Skipped" : answer.answer;
 
           return (
             <li key={index}>

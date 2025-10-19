@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ProgressBar from "./misc/ProgressBar";
+import QuestionTimer from "./QuestionTimer.jsx";
 import ANSWERS from "../data/answers.js";
 import { QuestionProgress } from "./misc/QuestionProgress.jsx";
 
@@ -11,7 +11,7 @@ export default function Question({ id, title, answers, onFinishedAnswer }) {
     QuestionProgress.WAITING
   );
   const [currentTimer, setCurrentTimer] = useState(DEFAULT_TIMER);
-  const [currentAnswer, setCurrentAnswer] = useState("");
+  const [currentAnswer, setCurrentAnswer] = useState(null);
   const [answerClasses, setAnswerClasses] = useState("");
   const isCorrect = ANSWERS.some(
     (answer) => answer.id === id && answer.answer === currentAnswer
@@ -56,7 +56,7 @@ export default function Question({ id, title, answers, onFinishedAnswer }) {
         break;
 
       case QuestionProgress.WAITING:
-        setCurrentAnswer("");
+        setCurrentAnswer(null);
         setAnswerClasses("");
         setCurrentTimer(DEFAULT_TIMER);
         break;
@@ -65,7 +65,7 @@ export default function Question({ id, title, answers, onFinishedAnswer }) {
 
   return (
     <div id="question">
-      <ProgressBar
+      <QuestionTimer
         timer={currentTimer}
         questionState={currentQuestionState}
         onSubmitAnswer={handleSubmitAnswer}
@@ -82,9 +82,8 @@ export default function Question({ id, title, answers, onFinishedAnswer }) {
                 className={answer === currentAnswer ? answerClasses : ""}
                 onClick={() => handleSelectAnswer(answer)}
                 disabled={
-                  currentQuestionState === QuestionProgress.SUBMITTING ||
-                  currentQuestionState === QuestionProgress.VERIFYING ||
-                  currentQuestionState === QuestionProgress.PREPARINGNEXT
+                  currentAnswer != null ||
+                  currentQuestionState === QuestionProgress.VERIFYING
                 }
                 key={index}
               >

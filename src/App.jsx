@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Header from "./components/header";
+import Header from "./components/Header";
 import Quiz from "./components/Quiz";
 import Summary from "./components/Summary";
 import ResultsContextProvider from "./results/results-context";

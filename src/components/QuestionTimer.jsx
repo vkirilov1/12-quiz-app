@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { QuestionProgress } from "./QuestionProgress";
+import { QuestionProgress } from "./misc/QuestionProgress";
 
-export default function ProgressBar({
+export default function QuestionTimer({
   timer,
   questionState,
   onSubmitAnswer,

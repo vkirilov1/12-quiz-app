@@ -8,6 +8,7 @@ export default function Quiz({ onFinishQuiz }) {
 
   const [currentQuestionPosition, setCurrentQuestionPosition] = useState(0);
   const question = QUESTIONS.at(currentQuestionPosition);
+  let shuffledAnswers = [];
 
   function handleFinishedAnswer(id, answer, isCorrect) {
     addAnswer(id, answer, isCorrect);
@@ -22,13 +23,18 @@ export default function Quiz({ onFinishQuiz }) {
     }
   }, [hasQuizEnded, onFinishQuiz]);
 
+  if (!hasQuizEnded) {
+    shuffledAnswers = [...question.answers];
+    shuffledAnswers.sort(() => Math.random() - 0.5);
+  }
+
   return (
     <div id="quiz">
       {!hasQuizEnded && (
         <Question
           id={question.id}
           title={question.text}
-          answers={question.answers}
+          answers={shuffledAnswers}
           onFinishedAnswer={handleFinishedAnswer}
         />
       )}
